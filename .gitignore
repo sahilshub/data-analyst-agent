@@ -15,3 +15,6 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Raw benchmark download: large, and re-downloadable
+data/raw/
