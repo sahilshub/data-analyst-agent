@@ -4,10 +4,14 @@ version = "0.1.0"
 description = "A text-to-SQL data analyst agent, measured on BIRD Mini-Dev."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+]
 
 [dependency-groups]
 dev = [
+    "httpx2>=2",
     "pytest>=8",
     "ruff>=0.8",
 ]
