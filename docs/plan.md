@@ -118,15 +118,18 @@ Tests check that the code does what you wrote; evals check that the agent gets a
 | Unit tests | SQL guard, each tool, result comparison, prompt builders | Every push | None |
 | Integration tests | Agent loop driven by a scripted fake LLM; API endpoints | Every push | None |
 | Safety tests | 20 adversarial inputs: write attempts, instructions hidden in data, runaway queries | Every push | None at guard level |
-| Eval smoke | 20 fixed questions | Every PR | About 100 |
+| Eval smoke | 20 fixed questions, a subset of the test set | Every PR | About 100 |
 | Full eval | All 100 test questions | Merge to `main`, or on demand | About 500 |
 
-**The eval set.** [BIRD Mini-Dev](https://github.com/bird-bench/mini_dev) has 500 question and SQL pairs over 11 SQLite databases, licensed CC BY-SA 4.0, so credit it in the README. Pick three or four of the smaller databases, then sample once and commit two files that never change:
+**The eval set.** [BIRD Mini-Dev](https://github.com/bird-bench/mini_dev) has 500 question and SQL pairs over 11 SQLite databases, licensed CC BY-SA 4.0, so credit it in the README. The project uses the 2026 revision of the questions, published on [Hugging Face](https://huggingface.co/datasets/birdsql/bird_mini_dev), and four of the smaller databases: `formula_1`, `student_club`, `superhero` and `thrombosis_prediction`. The sets were sampled once with a fixed seed and are committed in `evals/data/` as files that never change:
 
-- A 100-question test set, balanced across the benchmark's difficulty labels. This produces the numbers you publish.
+- A 100-question test set, 25 per database. This produces the numbers you publish.
 - A 30-question dev set for prompt iteration and failure analysis, so you never tune on the test set.
+- A 20-question smoke set, 5 per database, drawn from the test set. It is a regression check only, never used for tuning.
 
-**Metrics.** Execution accuracy is the headline. Alongside it, record valid-SQL rate, average steps, tokens per question, and p50 and p95 latency, each split by difficulty.
+The sets are balanced across databases, not difficulty: in the 2026 revision 460 of the 500 questions are labelled challenging (94 of the 100 test questions), so a difficulty balance is not possible. The reasoning is in `docs/decisions/0001-eval-set.md`.
+
+**Metrics.** Execution accuracy is the headline. Alongside it, record valid-SQL rate, average steps, tokens per question, and p50 and p95 latency, each split by database.
 
 **Reading results.** With 100 questions, a difference under about 5 points is within noise, so confirm small gains with a second run. Run at temperature 0 and record the model name with every result.
 
@@ -182,9 +185,9 @@ The main risk is the LLM rate limit, and the plan is shaped around it.
 
 This week, for Phase 0:
 
-- [ ] Create the public repo with uv, ruff, pytest and a CI workflow
+- [x] Create the public repo with uv, ruff, pytest and a CI workflow
 - [ ] Create the GitHub Project board and eight milestones
-- [ ] Download Mini-Dev (SQLite) from Hugging Face, pick the databases, sample and commit the test and dev sets
+- [x] Download Mini-Dev (SQLite), pick the databases, sample and commit the test, dev and smoke sets
 - [ ] Set a monthly AWS budget alert
 - [ ] Deploy a `/health` endpoint to EC2 with Docker Compose from GitHub Actions
 - [ ] Sign up for Groq and Langfuse and store the keys as GitHub secrets

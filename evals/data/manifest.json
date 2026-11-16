@@ -1,0 +1,34 @@
+{
+  "source": "BIRD Mini-Dev, 2026 revision (Hugging Face birdsql/bird_mini_dev)",
+  "source_file": "data/mini_dev_sqlite.jsonl",
+  "source_sha256": "926af2a0d1b47e5d0d15a7aa8a34d4721007f4550a881555b6a89496b54a2606",
+  "license": "CC BY-SA 4.0",
+  "seed": 42,
+  "per_database": {
+    "formula_1": {
+      "test": 25,
+      "dev": 8,
+      "smoke": 5
+    },
+    "student_club": {
+      "test": 25,
+      "dev": 7,
+      "smoke": 5
+    },
+    "superhero": {
+      "test": 25,
+      "dev": 7,
+      "smoke": 5
+    },
+    "thrombosis_prediction": {
+      "test": 25,
+      "dev": 8,
+      "smoke": 5
+    }
+  },
+  "counts": {
+    "test": 100,
+    "dev": 30,
+    "smoke": 20
+  }
+}

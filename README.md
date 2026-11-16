@@ -10,6 +10,19 @@ Status: Phase 0 (walking skeleton). The full plan is in [docs/plan.md](docs/plan
 
 No numbers yet. The baseline lands in Phase 1.
 
+## Eval set
+
+Questions come from the 2026 revision of BIRD Mini-Dev, over four of its SQLite
+databases (`data/databases/`). The sets in `evals/data/` are frozen:
+
+| File | Questions | Used for |
+| --- | --- | --- |
+| `test.jsonl` | 100 | Reported numbers only |
+| `dev.jsonl` | 30 | Prompt iteration and failure analysis |
+| `smoke.jsonl` | 20 (subset of test) | Regression check on every PR |
+
+How and why they were chosen: [docs/decisions/0001-eval-set.md](docs/decisions/0001-eval-set.md).
+
 ## Run locally
 
 Requires [uv](https://docs.astral.sh/uv/).
