@@ -1,0 +1,31 @@
+# Production stack, run on the EC2 instance from /opt/app.
+# The deploy job downloads this file and the Caddyfile, then runs `docker compose up -d`.
+services:
+  app:
+    # IMAGE_TAG is the commit hash set by the deploy job, so the server runs exactly that commit.
+    image: ghcr.io/sahilshub/data-analyst-agent:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    # No published port: only Caddy can reach the app.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # ":80" serves plain HTTP on any address. Set a domain name here to get HTTPS.
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data # certificates live here once HTTPS is on
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
