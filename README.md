@@ -46,6 +46,11 @@ Or run it in Docker, the same way production does:
 docker compose up --build
 ```
 
+## Deployment
+
+Every merge to `main` is built, published and deployed to one EC2 instance.
+See [docs/deploy.md](docs/deploy.md).
+
 ## Credits
 
 Evaluation data: [BIRD Mini-Dev](https://github.com/bird-bench/mini_dev), CC BY-SA 4.0.
