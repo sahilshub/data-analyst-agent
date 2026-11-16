@@ -1,0 +1,32 @@
+[project]
+name = "data-analyst-agent"
+version = "0.1.0"
+description = "A text-to-SQL data analyst agent, measured on BIRD Mini-Dev."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.8",
+]
+
+[tool.uv]
+# This is an application, not a library: nothing to build or publish.
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Lets tests do `import app` without installing the project as a package.
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# Docs are prose; keep the formatter out of their code samples.
+extend-exclude = ["docs"]
+
+[tool.ruff.lint]
+# E/F: basic errors, I: import order, B: likely bugs, UP: outdated syntax.
+select = ["E", "F", "I", "B", "UP"]
